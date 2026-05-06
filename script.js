@@ -1,64 +1,66 @@
-body {
-  font-family: Arial;
-  margin: 0;
-  background: #f4f4f4;
-}
-
-header {
-  background: black;
-  color: white;
-  padding: 15px;
-  text-align: center;
-}
-
-.container {
-  width: 80%;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 10px;
-}
-
-.image-box img {
-  width: 300px;
-  transition: transform 0.3s;
-}
+const cartBtn = document.getElementById("cartBtn");
+const productPage = document.getElementById("productPage");
+const shippingPage = document.getElementById("shippingPage");
+const confirmationPage = document.getElementById("confirmationPage");
 
 
-.image-box img:hover {
-  transform: scale(1.2);
-}
+cartBtn.addEventListener("click", () => {
 
-.price {
-  color: green;
-  font-size: 22px;
-}
+  let color = document.querySelector("input[name='color']:checked");
+  let size = document.querySelector("input[name='size']:checked");
 
-.btn {
-  padding: 10px 20px;
-  background: black;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+  if (!color || !size) {
+    alert("Please select color and size!");
+    return;
+  }
 
-.btn:hover {
-  background: green;
-}
+  
+  localStorage.setItem("color", color.value);
+  localStorage.setItem("size", size.value);
 
-.buy {
-  background: orange;
-}
+ 
+  cartBtn.innerText = "Added ✓";
+  cartBtn.style.background = "green";
 
-form input {
-  display: block;
-  width: 60%;
-  margin: 10px 0;
-  padding: 8px;
-}
+  
+  setTimeout(() => {
+    productPage.style.display = "none";
+    shippingPage.style.display = "block";
+  }, 1000);
+});
 
-.reviews {
-  background: #f9f9f9;
-  padding: 10px;
-}
+
+
+const form = document.getElementById("shippingForm");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  let inputs = form.querySelectorAll("input");
+  let valid = true;
+
+  inputs.forEach(input => {
+    if (input.value === "") valid = false;
+  });
+
+  if (!valid) {
+    alert("Fill all fields!");
+    return;
+  }
+
+
+  localStorage.setItem("name", inputs[0].value);
+  localStorage.setItem("address", inputs[1].value);
+
+ 
+  shippingPage.style.display = "none";
+  confirmationPage.style.display = "block";
+
+
+  document.getElementById("orderDetails").innerHTML = `
+    <h3>Order Details</h3>
+    Name: ${localStorage.getItem("name")} <br>
+    Color: ${localStorage.getItem("color")} <br>
+    Size: ${localStorage.getItem("size")}
+  `;
+});
