@@ -1,94 +1,64 @@
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f4f4f4;
+}
 
-const cartBtn = document.querySelector(".btn");
-const colorOptions = document.querySelectorAll("input[name='color']");
-const sizeOptions = document.querySelectorAll("input[name='size']");
+header {
+  background: black;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
 
+.container {
+  width: 80%;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
 
-cartBtn.addEventListener("click", function (e) {
-  e.preventDefault();
-
-  let selectedColor = "";
-  let selectedSize = "";
-
-  // Get selected color
-  colorOptions.forEach(option => {
-    if (option.checked) selectedColor = option.value || option.nextSibling.textContent.trim();
-  });
-  sizeOptions.forEach(option => {
-    if (option.checked) selectedSize = option.value || option.nextSibling.textContent.trim();
-  });
-
-
-  if (!selectedColor || !selectedSize) {
-    alert("Please select color and size!");
-    return;
-  }
-
-  
-  localStorage.setItem("color", selectedColor);
-  localStorage.setItem("size", selectedSize);
-  cartBtn.innerText = "Added to Cart ✓";
-  cartBtn.style.background = "green";
-  cartBtn.style.transform = "scale(1.1)";
-
-
-  setTimeout(() => {
-    window.location.href = "shipping.html";
-  }, 1200);
-});
-
-
-if (window.location.pathname.includes("shipping.html")) {
-
-  const form = document.querySelector("form");
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-   
-    const inputs = document.querySelectorAll("input");
-    let valid = true;
-
-    inputs.forEach(input => {
-      if (input.value.trim() === "") {
-        valid = false;
-      }
-    });
-
-    if (!valid) {
-      alert("Please fill all fields!");
-      return;
-    }
-
-   
-    localStorage.setItem("name", inputs[0].value);
-    localStorage.setItem("address", inputs[1].value);
-
-  
-    window.location.href = "confirmation.html";
-  });
-
+.image-box img {
+  width: 300px;
+  transition: transform 0.3s;
 }
 
 
+.image-box img:hover {
+  transform: scale(1.2);
+}
 
-if (window.location.pathname.includes("confirmation.html")) {
+.price {
+  color: green;
+  font-size: 22px;
+}
 
-  const container = document.querySelector(".container");
+.btn {
+  padding: 10px 20px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
 
-  const color = localStorage.getItem("color");
-  const size = localStorage.getItem("size");
-  const name = localStorage.getItem("name");
+.btn:hover {
+  background: green;
+}
 
-  if (container) {
-    const msg = document.createElement("p");
-    msg.innerHTML = `
-      <br>
-      <b>Order Details:</b><br>
-      Name: ${name} <br>
-      Color: ${color} <br>
-      Size: ${size}
-    `;
-    container.appendChild(msg);
-  }
+.buy {
+  background: orange;
+}
+
+form input {
+  display: block;
+  width: 60%;
+  margin: 10px 0;
+  padding: 8px;
+}
+
+.reviews {
+  background: #f9f9f9;
+  padding: 10px;
 }
